@@ -51,10 +51,19 @@ class Router
         $methodDictionary = $this->{strtolower($this->request->requestMethod)};
         $formatedRoute = $this->formatRoute($this->request->pathInfo);
 
+        $dynamicRoutes = new DynamicRoutes($methodDictionary);
 
-        if (!array_key_exists($this->formatRoute($this->request->pathInfo), $methodDictionary)) {
-            $this->defaultRequestHandler();
-            return;
+        $formatedRoute = $dynamicRoutes->findDynamicRouteForGivenRoute($formatedRoute);
+
+        $argumentsForAction = $dynamicRoutes->getDynamicPartOfRoute();
+
+        if (is_null($formatedRoute)) {
+            if (!array_key_exists($this->formatRoute($this->request->pathInfo), $methodDictionary)) {
+                $this->defaultRequestHandler();
+                return;
+            } else {
+                $formatedRoute = $this->formatRoute($this->request->pathInfo);
+            }
         }
 
         $method = $methodDictionary[$formatedRoute];
@@ -64,7 +73,7 @@ class Router
             return;
         }
 
-        $this->executeControllerAction($method);
+        $this->executeControllerAction($method, $argumentsForAction);
     }
 
     private function executeControllerAction($method, $argumentsForAction = null)
@@ -82,3 +91,4 @@ class Router
         $this->resolve();
     }
 }
+

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\Blogs;
+use App\Repository\BlogRepository;
 use Pagination\Paginator;
 
 class BlogController
@@ -19,5 +20,12 @@ class BlogController
         }
 
         return json_encode($blogs);
+    }
+
+    public function getBlogById($id)
+    {
+        $blogRepository = new BlogRepository(new Blogs());
+
+        return json_encode($blogRepository->getBlogById($id));
     }
 }
