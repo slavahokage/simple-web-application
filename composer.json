@@ -1,0 +1,14 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Router\\": "Router/",
+            "App\\": "src/"
+        }
+    },
+    "require": {
+        "squizlabs/php_codesniffer": "^3.4"
+    },
+    "scripts": {
+        "check-standards": "phpcs --standard=PSR1,PSR2 ./Router"
+    }
+}
