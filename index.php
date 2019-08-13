@@ -2,8 +2,8 @@
 
 require_once './vendor/autoload.php';
 
-use Router\Request;
-use Router\Router;
+use Core\Router\Request;
+use Core\Router\Router;
 
 $router = new Router(new Request);
 

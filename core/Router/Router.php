@@ -1,17 +1,17 @@
 <?php
 
-namespace Router;
+namespace Core\Router;
 
 class Router
 {
     private $request;
 
-    private $controllerDirectory = 'App\Controller\\';
+    private const CONTROLLER_DIRECTORY = 'App\Controller\\';
 
-    private $supportedHttpMethods = array(
+    private const SUPPORTED_HTTP_METHODS = [
         "GET",
         "POST"
-    );
+    ];
 
     public function __construct(Request $request)
     {
@@ -21,7 +21,7 @@ class Router
     public function __call($name, $args)
     {
         list($route, $method) = $args;
-        if (!in_array(strtoupper($name), $this->supportedHttpMethods)) {
+        if (!in_array(strtoupper($name), self::SUPPORTED_HTTP_METHODS)) {
             $this->invalidMethodHandler();
         }
         $this->{strtolower($name)}[$this->formatRoute($route)] = $method;
@@ -71,7 +71,7 @@ class Router
     {
         list($controller, $action) = explode("@", $method);
 
-        $controller = $this->controllerDirectory . $controller;
+        $controller = self::CONTROLLER_DIRECTORY . $controller;
         $newControllerInstance = new $controller();
 
         echo $newControllerInstance->$action($argumentsForAction);
