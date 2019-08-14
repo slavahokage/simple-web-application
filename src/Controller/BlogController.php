@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Model\Blogs;
-use Core\Router\Request;
 
 class BlogController extends Controller
 {
@@ -20,10 +19,5 @@ class BlogController extends Controller
         }
 
         return json_encode($blogs->getData());
-    }
-
-    public function show()
-    {
-        $this->request->sayHello();
     }
 }
