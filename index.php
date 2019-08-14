@@ -1,13 +1,12 @@
 <?php
 
-require_once './vendor/autoload.php';
-
-use Router\Request;
-use Router\Router;
-
 ini_set('display_errors', '1');
+$container = require __DIR__ . '/configuration/bootstrap.php';
 
-$router = new Router(new Request);
+use Core\Router\Request;
+use Core\Router\Router;
+
+$router = new Router(new Request, $container);
 
 $router->get('/', function () {
     return "<h1>Hello world</h1>";
