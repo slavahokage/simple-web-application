@@ -2,9 +2,13 @@
 
 namespace Core\Router;
 
+use DI\Container;
+
 class Router
 {
     private $request;
+
+    private $container;
 
     private const CONTROLLER_DIRECTORY = 'App\Controller\\';
 
@@ -13,9 +17,10 @@ class Router
         "POST"
     ];
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, Container $container)
     {
         $this->request = $request;
+        $this->container = $container;
     }
 
     public function __call($name, $args)
@@ -72,9 +77,8 @@ class Router
         list($controller, $action) = explode("@", $method);
 
         $controller = self::CONTROLLER_DIRECTORY . $controller;
-        $newControllerInstance = new $controller();
 
-        echo $newControllerInstance->$action($argumentsForAction);
+        echo $this->container->call([$controller, $action], [$argumentsForAction]);
     }
 
     public function __destruct()

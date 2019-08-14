@@ -2,6 +2,6 @@
 
 namespace App\Model;
 
-class Contacts extends Model
+class Blogs extends Model
 {
 }

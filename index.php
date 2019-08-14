@@ -1,11 +1,11 @@
 <?php
 
-require_once './vendor/autoload.php';
+$container = require __DIR__ . '/configuration/bootstrap.php';
 
 use Core\Router\Request;
 use Core\Router\Router;
 
-$router = new Router(new Request);
+$router = new Router(new Request, $container);
 
 $router->get('/', function () {
     return "<h1>Hello world</h1>";
@@ -14,3 +14,5 @@ $router->get('/', function () {
 $router->get('/news', 'NewsController@getNews');
 
 $router->get('/contacts', 'ContactsController@getContacts');
+
+$router->get('/blogs', 'BlogController@getBlogs');

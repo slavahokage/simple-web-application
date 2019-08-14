@@ -2,7 +2,7 @@
 
 namespace Core\Helpers;
 
-class StringHelper
+final class StringHelper
 {
     public static function toCamelCase($string)
     {
