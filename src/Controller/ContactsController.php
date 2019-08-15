@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Model\Contacts;
 
-class ContactsController
+class ContactsController extends Controller
 {
     private const DATA = ["Bob" => "+375446686858", "Eva" => "+375446686812", "Alex" => "+375446686321"];
 
