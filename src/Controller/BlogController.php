@@ -3,29 +3,29 @@
 namespace App\Controller;
 
 use App\Model\Blogs;
-use App\Repository\BlogRepository;
-use Pagination\Paginator;
 
-class BlogController
+class BlogController extends Controller
 {
+    private const DATA = ['blog1', 'blog2', 'blog3', 'blog4', 'blog5',
+        'blog6', 'blog7', 'blog8', 'blog9', 'blog10', 'blog11'];
+
     public function getBlogs()
     {
-        $contacts = new Blogs();
-        $blogs = $contacts->getBlogs();
+        $blogs = new Blogs(self::DATA);
+        $page = $this->request->page;
 
-        if (isset($_GET['page'])) {
-            $paginator = new Paginator($blogs, $_GET['page']);
-
-            return json_encode($paginator->getCurrentPageResults());
+        if (isset($page)) {
+            return json_encode($blogs->paginate($page));
         }
 
-        return json_encode($blogs);
+        return json_encode($blogs->getData());
     }
 
     public function getBlogById($id)
     {
-        $blogRepository = new BlogRepository(new Blogs());
+        $blogs = new Blogs(self::DATA);
+        $blog = $blogs->getById($id);
 
-        return json_encode($blogRepository->getBlogById($id));
+        return json_encode($blog);
     }
 }
