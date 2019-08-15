@@ -10,6 +10,8 @@ class Router
 
     private $container;
 
+    private $routeParser;
+
     private const CONTROLLER_DIRECTORY = 'App\Controller\\';
 
     private const SUPPORTED_HTTP_METHODS = [
@@ -17,10 +19,11 @@ class Router
         "POST"
     ];
 
-    public function __construct(Request $request, Container $container)
+    public function __construct(Request $request, Container $container, RouteParser $routeParser)
     {
         $this->request = $request;
         $this->container = $container;
+        $this->routeParser = $routeParser;
     }
 
     public function __call($name, $args)
@@ -53,26 +56,24 @@ class Router
 
     public function resolve()
     {
-        $methodDictionary = $this->{strtolower($this->request->requestMethod)};
-        $formatedRoute = $this->formatRoute($this->request->pathInfo);
+        $routes = $this->{strtolower($this->request->requestMethod)};
+        $routeData = $this->routeParser->parse($routes);
 
-
-        if (!array_key_exists($this->formatRoute($this->request->pathInfo), $methodDictionary)) {
+        if (empty($routeData)) {
             $this->defaultRequestHandler();
-            return;
         }
 
-        $method = $methodDictionary[$formatedRoute];
+        $action = $routes[$routeData['appropriateRoute']];
 
-        if (is_callable($method)) {
-            echo call_user_func_array($method, array($this->request));
-            return;
+        if (is_callable($action)) {
+            echo call_user_func_array($action, array($this->request));
+        } else {
+            $arguments = $routeData['dynamicPartOfRoute'] ?? null;
+            $this->executeControllerAction($action, $arguments);
         }
-
-        $this->executeControllerAction($method);
     }
 
-    private function executeControllerAction($method, $argumentsForAction = null)
+    private function executeControllerAction($method, $argumentsForAction)
     {
         list($controller, $action) = explode("@", $method);
 
@@ -86,3 +87,4 @@ class Router
         $this->resolve();
     }
 }
+
