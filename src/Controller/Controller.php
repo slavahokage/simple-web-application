@@ -16,4 +16,9 @@ class Controller
         $this->request = $request;
         $this->twig = $twig;
     }
+
+    public function render($name, $data)
+    {
+        return $this->twig->render($name, $data);
+    }
 }

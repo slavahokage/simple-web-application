@@ -19,6 +19,6 @@ class NewsController extends Controller
     {
         $news = new News(self::DATA);
 
-        return $this->twig->render('news.html.twig', ['news' => $news->getData()]);
+        return $this->render('news.html.twig', ['news' => $news->getData()]);
     }
 }
