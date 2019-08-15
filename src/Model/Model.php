@@ -20,4 +20,13 @@ class Model
     {
         return array_slice($this->data, $maxResultsPerPage * $page, $maxResultsPerPage);
     }
+
+    public function getById($id)
+    {
+        if (array_key_exists($id, $this->data)) {
+            return $this->data[$id];
+        }
+
+        return null;
+    }
 }

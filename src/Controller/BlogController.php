@@ -20,4 +20,12 @@ class BlogController extends Controller
 
         return json_encode($blogs->getData());
     }
+
+    public function getBlogById($id)
+    {
+        $blogs = new Blogs(self::DATA);
+        $blog = $blogs->getById($id);
+
+        return json_encode($blog);
+    }
 }
