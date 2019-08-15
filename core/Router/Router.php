@@ -57,7 +57,9 @@ class Router
     public function resolve()
     {
         $routes = $this->{strtolower($this->request->requestMethod)};
-        $routeData = $this->routeParser->parse($routes);
+        $route = $route = $this->formatRoute($this->request->pathInfo);
+
+        $routeData = $this->routeParser->parse($routes, $route);
 
         if (empty($routeData)) {
             $this->defaultRequestHandler();
