@@ -6,8 +6,7 @@ use Core\Router\Request;
 use Core\Router\RouteParser;
 use Core\Router\Router;
 
-$request = new Request();
-$router = new Router($request, $container, new RouteParser($request));
+$router = new Router(new Request(), $container, new RouteParser());
 
 $router->get('/', function () {
     return "<h1>Hello world</h1>";
