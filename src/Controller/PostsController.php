@@ -13,20 +13,21 @@ class PostsController extends Controller
     public function posts()
     {
         $method = $this->request->requestMethod;
+        $output = [];
 
-        if ($method === 'GET') {
-            return $this->render('searchForm.html.twig');
-        } else if ($method === 'POST') {
-            $output = [];
+        if ($method === 'POST') {
+            $posts = [];
             $postName = $this->request->postName ?? '';
 
             foreach (array_keys(self::DATA) as $item) {
                 if (StringHelper::startsWith($item, $postName)) {
-                    $output[] = self::DATA[$item];
+                    $posts[] = self::DATA[$item];
                 }
             }
 
-            return $this->render('searchForm.html.twig', ['posts' => $output]);
+            $output['posts'] = $posts;
         }
+
+        return $this->render('searchForm.html.twig', $output);
     }
 }
