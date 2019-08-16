@@ -1,0 +1,13 @@
+<html>
+<form method="post" action="/posts">
+    <p><b>Enter beginning of post name</b></p>
+    <input name="postName">
+    <p><input type="submit" value="Get posts"></p>
+    {% if posts %}
+        <h1>Posts: </h1>
+        {% for post in posts %}
+            <h4>{{ post }}</h4>
+        {% endfor %}
+    {% endif %}
+</form>
+</html>

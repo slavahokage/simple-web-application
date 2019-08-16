@@ -16,4 +16,11 @@ final class StringHelper
 
         return $result;
     }
+
+    public static function isStartsWith($string, $startString)
+    {
+        $len = strlen($startString);
+
+        return (substr($string, 0, $len) === $startString);
+    }
 }

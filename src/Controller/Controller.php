@@ -17,7 +17,7 @@ class Controller
         $this->twig = $twig;
     }
 
-    public function render($name, $data)
+    public function render($name, $data = [])
     {
         return $this->twig->render($name, $data);
     }

@@ -23,3 +23,8 @@ $router->get('/blogs/{id}', 'BlogController@getBlogById');
 $router->get('/displayNews', 'NewsController@displayNews');
 
 $router->get('/helloXss', 'HelloController@helloXss');
+
+$router->get('/posts', 'PostsController@posts');
+
+$router->post('/posts', 'PostsController@posts');
+
