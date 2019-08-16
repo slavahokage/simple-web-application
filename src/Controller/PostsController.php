@@ -20,7 +20,7 @@ class PostsController extends Controller
             $postName = $this->request->postName ?? '';
 
             foreach (array_keys(self::DATA) as $item) {
-                if (StringHelper::startsWith($item, $postName)) {
+                if (StringHelper::isStartsWith($item, $postName)) {
                     $posts[] = self::DATA[$item];
                 }
             }
