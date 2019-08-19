@@ -14,6 +14,10 @@ $router->get('/', function () {
 
 $router->get('/news', 'NewsController@getNews');
 
+$router->get('/news/new', 'NewsController@createNew');
+
+$router->post('/news/storeNews', 'NewsController@storeNews');
+
 $router->get('/contacts', 'ContactsController@getContacts');
 
 $router->get('/blogs', 'BlogController@getBlogs');
