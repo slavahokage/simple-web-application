@@ -42,6 +42,8 @@ class NewsController extends Controller
             return $this->render('news-form.html.twig', ['errors' => $validator->getBrokenRules()]);
         }
 
+        $this->addFlash("success", "Successfully saved");
+
         $this->redirectTo('/news');
     }
 }

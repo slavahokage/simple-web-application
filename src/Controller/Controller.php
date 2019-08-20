@@ -26,4 +26,9 @@ class Controller
     {
         header("Location: $redirectPath");
     }
+
+    public function addFlash($key, $message)
+    {
+        $_SESSION['flash'][$key][] = $message;
+    }
 }

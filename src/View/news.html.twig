@@ -1,5 +1,12 @@
 <html>
-    {% for new in news %}
-        <h1>{{ new }}</h1>
+<ul>
+    {% for flash in flashes('success') %}
+        <li>
+            {{ flash }}
+        </li>
     {% endfor %}
+</ul>
+{% for new in news %}
+    <h1>{{ new }}</h1>
+{% endfor %}
 </html>
