@@ -4,11 +4,13 @@
 {% if errors %}
     <h2 style="color: red">Validation errors</h2>
 {% endif %}
-{% for error in errors %}
-    {% for description in error %}
-        <h3 style="color: red">{{ description }}</h3>
+<ul>
+    {% for error in errors %}
+        {% for description in error %}
+            <li style="color: red">{{ description }}</li>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
+</ul>
 <form method="post" action="/news/storeNews">
     <table>
         <tr>
