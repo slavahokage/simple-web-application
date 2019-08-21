@@ -1,4 +1,8 @@
 <html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
 <ul>
     {% for flash in flashes('success') %}
         <li>
@@ -6,7 +10,17 @@
         </li>
     {% endfor %}
 </ul>
+<h1>List of news</h1>
+<ul>
+
+</ul>
 {% for new in news %}
-    <h1>{{ new }}</h1>
+    <form method="post" action="/news/delete">
+        <li>{{ new.title }} - {{ new.description }}
+            <button name="id" value="{{ new.id }}" type="submit">delete</button>
+        </li>
+    </form>
 {% endfor %}
+</ul>
+</body>
 </html>
