@@ -21,4 +21,9 @@ class Controller
     {
         return $this->twig->render($name, $data);
     }
+
+    public function redirectTo($redirectPath)
+    {
+        header("Location: $redirectPath");
+    }
 }
