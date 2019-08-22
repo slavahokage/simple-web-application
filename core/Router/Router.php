@@ -68,7 +68,8 @@ class Router
         $action = $routes[$routeData['appropriateRoute']];
 
         if (is_callable($action)) {
-            echo call_user_func_array($action, array($this->request));
+            $body = call_user_func_array($action, array($this->request));
+            $this->createResponseAndSend($body);
         } else {
             $arguments = $routeData['dynamicPartOfRoute'] ?? null;
             $this->executeControllerAction($action, $arguments);
@@ -78,10 +79,22 @@ class Router
     private function executeControllerAction($method, $argumentsForAction)
     {
         list($controller, $action) = explode("@", $method);
-
         $controller = self::CONTROLLER_DIRECTORY . $controller;
 
-        echo $this->container->call([$controller, $action], [$argumentsForAction]);
+        $responseBody = $this->container->call([$controller, $action], [$argumentsForAction]);
+
+        $this->createResponseAndSend($responseBody);
+    }
+
+    public function createResponseAndSend($body)
+    {
+        if ($body instanceof Response) {
+            $response = $body;
+        } else {
+            $response = new Response(200, [], $body);
+        }
+
+        $response->send();
     }
 
     public function __destruct()

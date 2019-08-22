@@ -4,7 +4,7 @@ namespace Core\Router;
 
 use Core\Helpers\StringHelper;
 
-class Request
+final class Request
 {
     public function __construct()
     {
