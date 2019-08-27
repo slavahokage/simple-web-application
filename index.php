@@ -37,3 +37,11 @@ $router->post('/posts', 'PostsController@posts');
 $router->post('/session', 'SessionController@createSession');
 
 $router->delete('/session', 'SessionController@deleteSession');
+
+$router->get('/cartPage', 'CartController@cartPage');
+
+$router->post('/storeProducts', 'CartController@storeProducts');
+
+$router->get('/displayProducts', 'CartController@displayProducts');
+
+$router->delete('/deleteProducts', 'CartController@deleteProducts');
