@@ -8,7 +8,7 @@ class Validator implements RulesContract
 
     protected $rules = [];
 
-    protected $brokenRules;
+    protected $brokenRules = [];
 
     public function __construct($fields, $rules)
     {
@@ -20,18 +20,18 @@ class Validator implements RulesContract
 
     protected function parseRules()
     {
-        foreach ($this->rules as $ruleKey => $ruleValue) {
+        array_walk($this->rules, function ($ruleValue, $ruleKey) {
             $currentRules = explode('|', $ruleValue);
-            foreach ($currentRules as $rule) {
+            array_walk($currentRules, function ($rule) use ($ruleKey) {
                 if (method_exists($this, $rule)) {
-                    if (!call_user_func_array([$this, $rule], [$ruleKey, $this->fields])) {
+                    if (!$this->$rule($ruleKey, $this->fields)) {
                         $this->brokenRules[$ruleKey][] = "rule $rule is broken for field ($ruleKey)";
                     }
                 } else {
-                    throw new \Exception("Not illegal rule ($rule)");
+                    $this->brokenRules[$ruleKey][] = "Not illegal rule ($rule)";
                 }
-            }
-        }
+            });
+        });
     }
 
     public function isFail()

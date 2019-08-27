@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Model\News;
+use Core\Router\Response;
 use Core\Validation\Validator;
 
 class NewsController extends Controller
@@ -42,8 +43,6 @@ class NewsController extends Controller
             return $this->render('news-form.html.twig', ['errors' => $validator->getBrokenRules()]);
         }
 
-        $this->addFlash("success", "Successfully saved");
-
-        $this->redirectTo('/news');
+        return new Response(302, ['Location' => '/displayNews', 'Set-Cookie' => 'success=new successfully added; Path=/']);
     }
 }

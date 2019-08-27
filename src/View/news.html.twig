@@ -1,12 +1,23 @@
 <html>
-<ul>
-    {% for flash in flashes('success') %}
-        <li>
-            {{ flash }}
-        </li>
-    {% endfor %}
+<ul id="flashMessages">
 </ul>
 {% for new in news %}
     <h1>{{ new }}</h1>
 {% endfor %}
+<script src="https://learn.javascript.ru/article/cookie/cookie.js"></script>
+<script>
+    if (getCookie('success') !== undefined) {
+        let flashMessages = document.getElementById('flashMessages');
+        let successLable = document.createElement("h1");
+        successLable.setAttribute("style", "color: green");
+        successLable.appendChild(document.createTextNode("Success message"));
+        flashMessages.appendChild(successLable);
+        let newLi = document.createElement("li");
+        newLi.setAttribute("style", "color: green");
+        newLi.appendChild(document.createTextNode(getCookie('success')));
+        flashMessages.appendChild(newLi);
+        document.cookie = "success=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    }
+
+</script>
 </html>
