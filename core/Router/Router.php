@@ -16,7 +16,8 @@ class Router
 
     private const SUPPORTED_HTTP_METHODS = [
         "GET",
-        "POST"
+        "POST",
+        "DELETE"
     ];
 
     public function __construct(Request $request, Container $container, RouteParser $routeParser)

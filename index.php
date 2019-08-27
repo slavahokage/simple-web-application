@@ -33,3 +33,7 @@ $router->get('/helloXss', 'HelloController@helloXss');
 $router->get('/posts', 'PostsController@posts');
 
 $router->post('/posts', 'PostsController@posts');
+
+$router->post('/session', 'SessionController@createSession');
+
+$router->delete('/session', 'SessionController@deleteSession');
