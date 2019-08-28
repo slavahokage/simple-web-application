@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 $container = require __DIR__ . '/configuration/bootstrap.php';
 
 use Core\Router\Request;
@@ -18,6 +18,8 @@ $router->get('/news/new', 'NewsController@createNew');
 
 $router->post('/news/storeNews', 'NewsController@storeNews');
 
+$router->get('/displayNews', 'NewsController@displayNews');
+
 $router->get('/contacts', 'ContactsController@getContacts');
 
 $router->get('/blogs', 'BlogController@getBlogs');
@@ -32,3 +34,14 @@ $router->get('/posts', 'PostsController@posts');
 
 $router->post('/posts', 'PostsController@posts');
 
+$router->post('/session', 'SessionController@createSession');
+
+$router->delete('/session', 'SessionController@deleteSession');
+
+$router->get('/cartPage', 'CartController@cartPage');
+
+$router->post('/storeProducts', 'CartController@storeProducts');
+
+$router->get('/displayProducts', 'CartController@displayProducts');
+
+$router->delete('/deleteProducts', 'CartController@deleteProducts');

@@ -9,6 +9,8 @@ return [
 
     Environment::class => function () {
         $loader = new FilesystemLoader(__DIR__ . '/../src/View');
-        return new Environment($loader);
+        $twig = new Environment($loader);
+
+        return $twig;
     },
 ];

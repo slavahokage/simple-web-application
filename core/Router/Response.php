@@ -267,8 +267,10 @@ final class Response implements ResponseInterface
 
     public function sendContent()
     {
-        if ($this->stream->isSeekable()) {
-            $this->stream->seek(0);
+        if (!is_null($this->stream)) {
+            if ($this->stream->isSeekable()) {
+                $this->stream->seek(0);
+            }
         }
 
         echo $this->getBody()->getContents();
