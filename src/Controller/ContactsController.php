@@ -6,12 +6,16 @@ use App\Model\Contacts;
 
 class ContactsController extends Controller
 {
-    private const DATA = ["Bob" => "+375446686858", "Eva" => "+375446686812", "Alex" => "+375446686321"];
-
-    public function getContacts()
+    /**
+     * @Inject
+     */
+    public function getContacts(Contacts $contacts)
     {
-        $contacts = new Contacts(self::DATA);
+        return json_encode($contacts->findAll(), JSON_UNESCAPED_UNICODE);
+    }
 
-        return json_encode($contacts->getData());
+    public function getContactById($id, Contacts $contacts)
+    {
+        return json_encode($contacts->findById($id));
     }
 }

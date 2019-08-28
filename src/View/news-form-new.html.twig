@@ -1,0 +1,29 @@
+<html>
+<h1>Create news</h1>
+
+{% if errors %}
+    <h2 style="color: red">Validation errors</h2>
+{% endif %}
+<ul>
+    {% for error in errors %}
+        {% for description in error %}
+            <li style="color: red">{{ description }}</li>
+        {% endfor %}
+    {% endfor %}
+</ul>
+{{ dump(new) }}
+<form method="post" action="/news/storeNews">
+    <table>
+        <tr>
+            <td>Title:</td>
+            <td><p><input name="title" value="{{ new.title }}"></p></td>
+        </tr>
+
+        <tr>
+            <td>Description:</td>
+            <td><p><input name="description" value="{{ new.description }}"></p></td>
+        </tr>
+    </table>
+    <p><input type="submit" value="Create new"></p>
+</form>
+</html>

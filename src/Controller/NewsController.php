@@ -8,28 +8,47 @@ use Core\Validation\Validator;
 
 class NewsController extends Controller
 {
-    private const DATA = ["first" => "First new", "second" => "Second new", "third" => "Third new"];
 
-    public function getNews()
+    /**
+     * @Inject
+     */
+    public function getNews(News $news)
     {
-        $news = new News(self::DATA);
-
-        return json_encode($news->getData());
+        return json_encode($news->findAll(), JSON_UNESCAPED_UNICODE);
     }
 
-    public function displayNews()
+    /**
+     * @Inject
+     */
+    public function displayNews(News $news)
     {
-        $news = new News(self::DATA);
+        $newsForTwig = $news->findColumns(['id', 'title', 'description']);
 
-        return $this->render('news.html.twig', ['news' => $news->getData()]);
+        return $this->render('news.html.twig', ['news' => $newsForTwig]);
     }
 
     public function createNew()
     {
-        return $this->render('news-form.html.twig');
+        return $this->render('news-form-new.html.twig');
     }
 
-    public function storeNews()
+    public function updateNew(?int $id, News $news)
+    {
+        $validator = new Validator(
+            ['id' => $id],
+            ['id' => 'required|filled']
+        );
+
+        if ($validator->isFail()) {
+            return $this->render('news-form.html.twig', ['errors' => $validator->getBrokenRules()]);
+        }
+
+        $new = $news->findById($id);
+
+        return $this->render('news-form-update.html.twig', ['new' => $new]);
+    }
+
+    public function storeNews(?int $id, News $news)
     {
         $title = $this->request->title;
         $description = $this->request->description;
@@ -42,6 +61,31 @@ class NewsController extends Controller
         if ($validator->isFail()) {
             return $this->render('news-form.html.twig', ['errors' => $validator->getBrokenRules()]);
         }
+
+        if ($id === null) {
+            $news->save([$title, $description]);
+        } else {
+            $news->update(['title' => $title, 'description' => $description], $id);
+        }
+
+        $this->addFlash("success", "Successfully saved");
+
+        $this->redirectTo('/displayNews');
+    }
+
+    public function deleteNews(News $news)
+    {
+        $id = $this->request->id;
+        $validator = new Validator(
+            ['id' => $id],
+            ['id' => 'required|filled']
+        );
+
+        if ($validator->isFail()) {
+            return $this->render('news-form.html.twig', ['errors' => $validator->getBrokenRules()]);
+        }
+
+        $news->delete($id);
 
         return new Response(302, ['Location' => '/displayNews', 'Set-Cookie' => 'success=new successfully added; Path=/']);
     }

@@ -13,4 +13,10 @@ return [
 
         return $twig;
     },
+
+    \PDO::class => require __DIR__ . '/DBconfiguration.php',
+
+    \App\Model\Model::class => function (PDO $pdo) {
+        return new App\Model\Model($pdo);
+    },
 ];

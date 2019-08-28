@@ -3,6 +3,7 @@
 namespace Core\Router;
 
 use DI\Container;
+use ReflectionMethod;
 
 class Router
 {
@@ -82,7 +83,22 @@ class Router
         list($controller, $action) = explode("@", $method);
         $controller = self::CONTROLLER_DIRECTORY . $controller;
 
-        $responseBody = $this->container->call([$controller, $action], [$argumentsForAction]);
+        $argumentsForContainer = [];
+
+        $method = new ReflectionMethod($controller, $action);
+        $params = $method->getParameters();
+
+        foreach ($params as $param) {
+            $type = $param->getType();
+            if ($type !== null) {
+                $typeName = $type->getName();
+                if (!$this->container->has($typeName)) {
+                    $argumentsForContainer[] = $argumentsForAction;
+                }
+            }
+        }
+
+        $responseBody = $this->container->call([$controller, $action], $argumentsForContainer);
 
         $this->createResponseAndSend($responseBody);
     }
@@ -96,6 +112,7 @@ class Router
         }
 
         $response->send();
+
     }
 
     public function __destruct()
